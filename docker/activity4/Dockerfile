@@ -1,4 +1,4 @@
-FROM tomcat:9-jdk8
+FROM tomcat:9-jdk8-openjdk-slim
 LABEL author="Ramesh"
 LABEL organization="Quality Thought"
 COPY gameoflife.war /usr/local/tomcat/webapps/gameoflife.war
