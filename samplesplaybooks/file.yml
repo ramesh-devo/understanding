@@ -2,8 +2,46 @@
 - name: Lets create some directories and files
   hosts: all
   gather_facts: true
+  become: yes
   tasks:
-    - name: create directory name as kyndryl
-      file:
-        path: /kyndryl 
-        state: touch
+    - block:
+        - name: install apache
+          apt:
+            name: apache2
+            state: latest
+        - name: create directory name as kyndryl
+          file:
+            path: /etc/kyndryl
+            state: directory
+
+        - name: give the  permission for directory
+          file:
+            #group: root
+            group: ansible
+            path: /etc/kyndryl
+            mode: 0755
+          tags: kyndryl
+        - name: create the file named as hello
+          file:
+            #group: root
+            group: ansible
+            path: /etc/hello
+            state: touch
+            #mode: 0644
+            mode: u=rw,g=r,o=r
+          tags: hello
+        - name: for hello file give add/remove permissions"
+          file:
+            path: /etc/hello
+            state: touch
+            mode: u+rwx,g+rw,o-rwx
+        - name: print the above information
+          debug:
+            msg: "Directory and File created and given the permissions"
+          notify:
+            - restart apache2
+  handlers:
+    - name: restart the service
+      service:
+        name: apache2
+        state: restarted
