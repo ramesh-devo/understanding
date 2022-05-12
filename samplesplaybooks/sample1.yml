@@ -1,0 +1,27 @@
+---
+- name: install httpd pacakage
+  hosts: all
+  # become: yes
+  tasks:
+    - block:
+        - name: Install apache httpd
+          apt:
+            name: apache2
+            state: present
+          tags: apache
+        - name: enable and start the service
+          ansible.builtin.service:
+            name: apache2
+            state: restarted
+          become: yes
+          tags: apache1
+        - name: Print the message of apache installation
+          debug:
+            msg: "Successfully installation completed and browse for apache page"
+          tags: msg
+        - name: copy the content from source to destination
+          ansible.builtin.copy:
+            src: /home/ansible/testing/mine.j2
+            dest: /etc/mydest
+      ignore_errors: yes
+      

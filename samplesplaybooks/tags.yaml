@@ -1,0 +1,14 @@
+---
+- name:  write some sample tags
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - debug: 
+      msg: "this is my first task"
+      tags: first
+    - debug: 
+      msg: "this is my second task"
+      tags: second
+    - debug: 
+      msg: "this is my third task"
+      tags: third 
