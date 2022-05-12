@@ -1,0 +1,9 @@
+---
+- name: Lets create some directories and files
+  hosts: all
+  gather_facts: true
+  tasks:
+    - name: create directory name as kyndryl
+      file:
+        path: /kyndryl 
+        state: touch
